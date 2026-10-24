@@ -1,0 +1,47 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[codz]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Unit test / coverage reports
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# uv
+#uv.lock
+
+# poetry
+#poetry.lock
+
+# Editors
+.idea/
+# .vscode/
+
+# Cursor
+.cursorignore
+.cursorindexingignore
+
+# Fetch.ai agent keys
+private_keys.json
+**/private_keys.json
+.env
+.venv/
+__pycache__/

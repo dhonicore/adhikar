@@ -1,0 +1,17 @@
+{
+    "user_f777bb3b-ec1c-4e59-940b-1fe06d3facfb": "agent1qwxfhwshfjvu9w7w49zefdg65tge8uhvyttzxpwpzry7akk2j99pkdmc0y2",
+    "user_77df5aca-2f55-4123-a309-21a79ab51b4d": "agent1qwxfhwshfjvu9w7w49zefdg65tge8uhvyttzxpwpzry7akk2j99pkdmc0y2",
+    "current_case": "{\"scheme\": \"NSP_PRE_MATRIC\", \"status\": \"rejected\", \"stated_reason\": \"Income certificate was invalid\", \"cert_issue_date\": \"2026-10-23\", \"issuing_authority\": \"Revenue Officer\", \"family_income\": 180000, \"income_proof_type\": \"itr\"}",
+    "user_e8902bff-0882-4537-99e8-1a35dcaad464": "agent1qwxfhwshfjvu9w7w49zefdg65tge8uhvyttzxpwpzry7akk2j99pkdmc0y2",
+    "user_53b1d19d-bafe-495f-9249-e6b8394cd785": "agent1qwxfhwshfjvu9w7w49zefdg65tge8uhvyttzxpwpzry7akk2j99pkdmc0y2",
+    "user_2acf160b-6b73-4135-8ad5-12060920a649": "agent1qwxfhwshfjvu9w7w49zefdg65tge8uhvyttzxpwpzry7akk2j99pkdmc0y2",
+    "user_c8bcc532-b6e0-4d2a-b71d-2a6a5d4e664d": "agent1qwxfhwshfjvu9w7w49zefdg65tge8uhvyttzxpwpzry7akk2j99pkdmc0y2",
+    "user_adb8405c-5ca4-413e-8a31-33e0bb7ba940": "agent1qwxfhwshfjvu9w7w49zefdg65tge8uhvyttzxpwpzry7akk2j99pkdmc0y2",
+    "user_ad60bbbc-1518-4fbc-a629-4f56d91eead4": "agent1qwxfhwshfjvu9w7w49zefdg65tge8uhvyttzxpwpzry7akk2j99pkdmc0y2",
+    "user_dc298604-8675-4a56-8105-2cfc8109c231": "agent1qwxfhwshfjvu9w7w49zefdg65tge8uhvyttzxpwpzry7akk2j99pkdmc0y2",
+    "user_fdf2c54c-840a-40a9-9e27-8a3f8cb8ac3f": "agent1qwxfhwshfjvu9w7w49zefdg65tge8uhvyttzxpwpzry7akk2j99pkdmc0y2",
+    "user_79c02422-c5eb-4624-9ba4-194dab5bba1d": "agent1qwxfhwshfjvu9w7w49zefdg65tge8uhvyttzxpwpzry7akk2j99pkdmc0y2",
+    "user_address": "agent1qwxfhwshfjvu9w7w49zefdg65tge8uhvyttzxpwpzry7akk2j99pkdmc0y2",
+    "draft_text": "To the Institute Nodal Officer,\n\nI am appealing the rejection of my scholarship.\nGrounds: R1_cert_validity, G1_itr_equivalent\nClauses: Clause 4.2\n\nEnclosures: Income certificate, rejection SMS.",
+    "case_id": "ADH-123456"
+}

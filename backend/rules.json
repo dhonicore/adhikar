@@ -1,0 +1,34 @@
+{
+  "schemes": {
+    "NSP_PRE_MATRIC": {
+      "name": "NSP Pre-Matric Scholarship",
+      "income_ceiling": 250000,
+      "income_proof": {
+        "accepted_types": ["income_certificate", "itr"],
+        "issuing_authorities": ["Tehsildar", "Revenue Officer", "SDM"],
+        "validity_months": 12
+      },
+      "rules": [
+        {
+          "id": "R1_cert_validity",
+          "text": "Income certificate must be issued within the current financial year.",
+          "clause_ref": "Clause 4.2",
+          "check": "cert_within_validity"
+        },
+        {
+          "id": "R2_authority",
+          "text": "Certificate must be issued by Tehsildar, Revenue Officer, or SDM.",
+          "clause_ref": "Clause 4.3",
+          "check": "authority_in_allowed_list"
+        }
+      ],
+      "precedents": [
+        {
+          "id": "G1_itr_equivalent",
+          "text": "Rejection solely because ITR was filed instead of income certificate, where income is within ceiling, is not sustainable.",
+          "citation": "Delhi High Court, Prathiba M. Singh J., Dec 2022"
+        }
+      ]
+    }
+  }
+}
