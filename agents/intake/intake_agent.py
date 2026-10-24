@@ -55,7 +55,7 @@ async def handle_chat(ctx: Context, sender: str, msg: ChatMessage):
         ctx.logger.info(f"Sending to Analyst at {ANALYST_URL}...")
         async with httpx.AsyncClient() as client:
             try:
-                r = await client.post(ANALYST_URL, json=case_data, timeout=10)
+                r = await client.post(ANALYST_URL, json=case_data, timeout=60)
                 result = r.json()
                 ctx.logger.info(f"Analyst response: {result}")
             except Exception as e:

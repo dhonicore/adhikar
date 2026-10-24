@@ -76,7 +76,7 @@ def confirm(req: ConfirmRequest):  # <--- Notice: DEF, not ASYNC DEF
 
     # 3. Register with Backend
     try:
-        with httpx.Client(timeout=5.0) as client:
+        with httpx.Client(timeout=60) as client:
             r = client.post(f"{BACKEND_URL}/grievance", json={
                 "case_id": req.case_id, "scheme": "NSP_PRE_MATRIC",
                 "ground_ids": ["R1"], "clause_refs": ["Clause 4.2"], "draft_text": req.draft_text
