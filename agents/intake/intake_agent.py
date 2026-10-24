@@ -17,9 +17,9 @@ intake = Agent(name="intake", seed=os.getenv("INTAKE_SEED_PHRASE"), port=8001, m
 chat_proto = Protocol(spec=chat_protocol_spec)
 
 # Local FastAPI URLs
-ANALYST_URL = "http://127.0.0.1:8002/analyse"
-DRAFTER_DRAFT_URL = "http://127.0.0.1:8003/draft"
-DRAFTER_CONFIRM_URL = "http://127.0.0.1:8003/confirm"
+ANALYST_URL = os.getenv("ANALYST_URL", "http://127.0.0.1:8002/analyse")
+DRAFTER_DRAFT_URL = os.getenv("DRAFTER_DRAFT_URL", "http://127.0.0.1:8003/draft")
+DRAFTER_CONFIRM_URL = os.getenv("DRAFTER_CONFIRM_URL", "http://127.0.0.1:8003/confirm")
 
 @chat_proto.on_message(ChatMessage)
 async def handle_chat(ctx: Context, sender: str, msg: ChatMessage):

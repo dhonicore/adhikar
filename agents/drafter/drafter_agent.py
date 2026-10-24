@@ -7,7 +7,7 @@ from dotenv import find_dotenv, load_dotenv
 
 load_dotenv(find_dotenv())
 app = FastAPI()
-BACKEND_URL = "http://localhost:9000"
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:9000")
 PENDING_CASES = {}
 
 class DraftRequest(BaseModel):

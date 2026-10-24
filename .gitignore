@@ -45,3 +45,4 @@ private_keys.json
 .env
 .venv/
 __pycache__/
+*.mp4

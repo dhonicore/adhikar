@@ -3,7 +3,7 @@ import httpx
 from pydantic import BaseModel
 
 app = FastAPI()
-BACKEND_URL = "http://localhost:9000"
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:9000")
 
 class CaseData(BaseModel):
     scheme: str
