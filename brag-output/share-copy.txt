@@ -1,0 +1,22 @@
+Adhikar — AI Advocate for Students
+Built for Fetch-A-Thon 3.0
+
+Primary (X):
+Scholarships get rejected. Students give up. Adhikar doesn't.
+
+It reads the rejection, checks the rules, drafts the appeal, emails the Nodal Officer, and hands you a Reference ID + SLA.
+
+And when the rejection is actually correct? It says so.
+
+AI Advocate for Students. Built for Fetch-A-Thon 3.0.
+
+Alt (LinkedIn):
+Scholarship rejection isn't just a "no" — it's often a dead end. No appeal button, no guidance, no next step.
+
+Adhikar is an agentic AI advocate for students. It parses the rejection, verifies the certificate against scheme rules and precedent, drafts a formal appeal, emails the Nodal Officer, and returns a Reference ID with an SLA.
+
+The part we're proudest of: it refuses to file when there are no grounds. Trust is the feature.
+
+Built for Fetch-A-Thon 3.0.
+
+Hashtags: #AIForGood #LegalTech #Agents #FetchAThon #Adhikar

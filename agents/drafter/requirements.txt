@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+httpx
+fpdf2
+python-dotenv
+pydantic

@@ -1,7 +1,7 @@
 {
     "user_f777bb3b-ec1c-4e59-940b-1fe06d3facfb": "agent1qwxfhwshfjvu9w7w49zefdg65tge8uhvyttzxpwpzry7akk2j99pkdmc0y2",
     "user_77df5aca-2f55-4123-a309-21a79ab51b4d": "agent1qwxfhwshfjvu9w7w49zefdg65tge8uhvyttzxpwpzry7akk2j99pkdmc0y2",
-    "current_case": "{\"scheme\": \"NSP_PRE_MATRIC\", \"status\": \"rejected\", \"stated_reason\": \"Income certificate was invalid\", \"cert_issue_date\": \"2026-10-23\", \"issuing_authority\": \"Revenue Officer\", \"family_income\": 180000, \"income_proof_type\": \"itr\"}",
+    "current_case": "{\"scheme\": \"NSP_PRE_MATRIC\", \"status\": \"rejected\", \"stated_reason\": \"income certificate was invalid\", \"cert_issue_date\": \"2026-10-23\", \"issuing_authority\": \"Revenue Officer\", \"family_income\": 180000, \"income_proof_type\": \"itr\"}",
     "user_e8902bff-0882-4537-99e8-1a35dcaad464": "agent1qwxfhwshfjvu9w7w49zefdg65tge8uhvyttzxpwpzry7akk2j99pkdmc0y2",
     "user_53b1d19d-bafe-495f-9249-e6b8394cd785": "agent1qwxfhwshfjvu9w7w49zefdg65tge8uhvyttzxpwpzry7akk2j99pkdmc0y2",
     "user_2acf160b-6b73-4135-8ad5-12060920a649": "agent1qwxfhwshfjvu9w7w49zefdg65tge8uhvyttzxpwpzry7akk2j99pkdmc0y2",

@@ -1,0 +1,11 @@
+In India, millions of students are wrongfully denied scholarships due to clerical errors. The government portal has no appeal button. Most students simply give up.
+
+Meet Adhikar. An autonomous multi-agent team that turns a wrongful rejection into a filed, trackable appeal — all inside ASI:One.
+
+We built a hybrid architecture. The Intake agent handles the chat. Local FastAPI servers handle the deterministic legal rules and the real-world action, guaranteeing one hundred percent execution reliability.
+
+The Drafter generates a PDF and emails it directly to the Nodal Officer. The student gets a trackable Reference ID and an SLA timer.
+
+And if the denial was legally correct? Adhikar refuses to file a false appeal. It doesn't just discover schemes — it enforces your rights.
+
+Adhikar. Built for Fetch-A-Thon 3.0.

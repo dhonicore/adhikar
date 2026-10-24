@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <title>Adhikar Launch Video</title>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      background: #0B0F19;
+      color: #F8FAFC;
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      overflow: hidden;
+    }
+    #root {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .clip {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    h1, h2, h3, p {
+      margin: 0;
+    }
+    .sms-card {
+      width: 720px;
+      background: #1E293B;
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+      border: 1px solid #334155;
+    }
+    .sms-header {
+      color: #EF4444;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .sms-body {
+      color: #F8FAFC;
+      font-size: 36px;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    .sms-footer {
+      margin-top: 24px;
+      color: #F59E0B;
+      font-size: 24px;
+      font-weight: 600;
+    }
+    .chat-container {
+      width: 900px;
+      max-width: 90%;
+      background: #1E293B;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid #334155;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+    }
+    .chat-header {
+      background: #0F172A;
+      padding: 20px 24px;
+      border-bottom: 1px solid #334155;
+      color: #38BDF8;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .chat-bubble {
+      background: #334155;
+      padding: 16px 20px;
+      border-radius: 16px;
+      margin: 20px;
+      font-size: 20px;
+      max-width: 80%;
+    }
+    .form-card {
+      background: #0F172A;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      margin: 20px;
+      padding: 24px;
+    }
+    .form-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #F8FAFC;
+    }
+    .form-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #334155;
+      font-size: 18px;
+    }
+    .form-row:last-child { border-bottom: none; }
+    .form-label { color: #94A3B8; }
+    .form-value { color: #F8FAFC; font-weight: 600; }
+    .cta-btn {
+      display: inline-block;
+      background: #F59E0B;
+      color: #0B0F19;
+      font-weight: 700;
+      font-size: 20px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      margin-top: 20px;
+      align-self: flex-start;
+    }
+    .terminal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      width: 1100px;
+    }
+    .term-pane {
+      background: #0F172A;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 20px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 16px;
+      min-height: 180px;
+    }
+    .term-title {
+      color: #38BDF8;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+    .term-status {
+      color: #22C55E;
+      font-weight: 700;
+      font-size: 28px;
+    }
+    .term-log {
+      color: #94A3B8;
+      margin-top: 8px;
+      font-size: 28px;
+      line-height: 1.4;
+    }
+    .email-card {
+      width: 800px;
+      background: #1E293B;
+      border-radius: 20px;
+      padding: 28px;
+      border: 1px solid #334155;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+    }
+    .email-subject {
+      font-size: 28px;
+      font-weight: 700;
+      color: #F8FAFC;
+      margin-bottom: 12px;
+    }
+    .email-attach {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #334155;
+      padding: 10px 16px;
+      border-radius: 8px;
+      color: #F8FAFC;
+      font-size: 18px;
+      margin-top: 16px;
+    }
+    .ref-card {
+      width: 800px;
+      background: #0F172A;
+      border: 1px solid #334155;
+      border-radius: 20px;
+      padding: 32px;
+      margin-top: 24px;
+    }
+    .ref-title {
+      color: #22C55E;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .ref-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #334155;
+      font-size: 20px;
+    }
+    .ref-row:last-child { border-bottom: none; }
+    .ref-label { color: #94A3B8; }
+    .ref-value { color: #F8FAFC; font-weight: 600; }
+    .honest-card {
+      width: 720px;
+      background: #1E293B;
+      border-radius: 24px;
+      padding: 40px;
+      border: 2px solid #EF4444;
+      box-shadow: 0 24px 64px rgba(239,68,68,0.15);
+    }
+    .honest-title {
+      color: #EF4444;
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .honest-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #334155;
+      font-size: 20px;
+    }
+    .honest-row:last-child { border-bottom: none; }
+    .honest-label { color: #94A3B8; }
+    .honest-value { color: #F8FAFC; font-weight: 600; }
+    .honest-sub {
+      margin-top: 20px;
+      color: #94A3B8;
+      font-size: 20px;
+    }
+    .logo {
+      font-size: 120px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #F8FAFC;
+      text-shadow: 0 0 40px rgba(245,158,11,0.4);
+    }
+    .logo-sub {
+      font-size: 32px;
+      color: #F59E0B;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+    .logo-event {
+      font-size: 24px;
+      color: #94A3B8;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="adhikar" data-start="0" data-width="1920" data-height="1080" data-duration="25">
+
+    <!-- Scene 1: Rejection -->
+    <section class="clip" data-start="0" data-duration="3.5" data-track-index="1" id="scene-1">
+      <div class="sms-card">
+        <div class="sms-header">Scholarship Rejected</div>
+        <div class="sms-body">Income Certificate Invalid.</div>
+        <div class="sms-footer">No appeal button on the portal.</div>
+      </div>
+    </section>
+
+    <!-- Scene 2: Chat / Intake Form -->
+    <section class="clip" data-start="3.5" data-duration="4.5" data-track-index="2" id="scene-2">
+      <div class="chat-container">
+        <div class="chat-header">ASI:One — Adhikar</div>
+        <div class="chat-bubble">I can help you appeal this. First, a few details:</div>
+        <div class="form-card">
+          <div class="form-title">Tell me about your scholarship rejection</div>
+          <div class="form-row"><span class="form-label">Scheme</span><span class="form-value">NSP Pre-Matric Scholarship</span></div>
+          <div class="form-row"><span class="form-label">Status</span><span class="form-value">Rejected</span></div>
+          <div class="form-row"><span class="form-label">Stated reason</span><span class="form-value">Income Certificate Invalid</span></div>
+          <div class="form-row"><span class="form-label">Certificate issue date</span><span class="form-value">2024-03-12</span></div>
+          <div class="form-row"><span class="form-label">Issuing authority</span><span class="form-value">Tehsildar</span></div>
+          <div class="form-row"><span class="form-label">Annual family income</span><span class="form-value">₹1,80,000</span></div>
+          <div class="form-row"><span class="form-label">Income proof type</span><span class="form-value">ITR</span></div>
+          <div class="cta-btn">Check my case</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scene 3: Architecture -->
+    <section class="clip" data-start="8" data-duration="4.5" data-track-index="3" id="scene-3">
+      <div class="terminal-grid">
+        <div class="term-pane">
+          <div class="term-title">Backend :9000</div>
+          <div class="term-status">● ONLINE</div>
+          <div class="term-log">POST /analyse → 200 OK<br>POST /grievance → 200 OK</div>
+        </div>
+        <div class="term-pane">
+          <div class="term-title">Analyst :8002</div>
+          <div class="term-status">● ONLINE</div>
+          <div class="term-log">Checking cert validity...<br>Found precedent: ITR equivalent</div>
+        </div>
+        <div class="term-pane">
+          <div class="term-title">Drafter :8003</div>
+          <div class="term-status">● ONLINE</div>
+          <div class="term-log">Generating PDF...<br>Sending email to Nodal Officer</div>
+        </div>
+        <div class="term-pane">
+          <div class="term-title">Intake Agent :8001</div>
+          <div class="term-status">● ONLINE</div>
+          <div class="term-log">Routing to Analyst...<br>Outcome: APPEAL</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scene 4: Action -->
+    <section class="clip" data-start="12.5" data-duration="5" data-track-index="4" id="scene-4">
+      <div class="email-card">
+        <div class="email-subject">Scholarship Appeal - Case ADH-123456</div>
+        <div class="email-attach">📎 appeal-letter.pdf</div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-title">✅ Appeal Filed Successfully</div>
+        <div class="ref-row"><span class="ref-label">Reference ID</span><span class="ref-value">SCHLR/E/2026/1234</span></div>
+        <div class="ref-row"><span class="ref-label">SLA Deadline</span><span class="ref-value">7 days</span></div>
+        <div class="ref-row"><span class="ref-label">Assigned To</span><span class="ref-value">District Scholarship Officer</span></div>
+      </div>
+    </section>
+
+    <!-- Scene 5: Honesty -->
+    <section class="clip" data-start="17.5" data-duration="4.5" data-track-index="5" id="scene-5">
+      <div class="honest-card">
+        <div class="honest-title">❌ I cannot file an appeal</div>
+        <div class="honest-row"><span class="honest-label">Outcome</span><span class="honest-value">No Grounds</span></div>
+        <div class="honest-row"><span class="honest-label">Grounds</span><span class="honest-value">None</span></div>
+        <div class="honest-row"><span class="honest-label">Citations</span><span class="honest-value">None</span></div>
+        <div class="honest-sub">The rejection appears correct.</div>
+      </div>
+    </section>
+
+    <!-- Outro -->
+    <section class="clip" data-start="22" data-duration="3" data-track-index="6" id="outro">
+      <div class="logo">ADHIKAR</div>
+      <div class="logo-sub">AI Advocate for Students</div>
+      <div class="logo-event">Built for Fetch-A-Thon 3.0</div>
+    </section>
+
+    <!-- Voiceover -->
+    <audio id="vo1" data-start="0" data-duration="3.32" data-track-index="20" data-volume="1" src="assets/voice/scene1.wav"></audio>
+    <audio id="vo2" data-start="3.5" data-duration="4.34" data-track-index="21" data-volume="1" src="assets/voice/scene2.wav"></audio>
+    <audio id="vo3" data-start="8" data-duration="4.37" data-track-index="22" data-volume="1" src="assets/voice/scene3.wav"></audio>
+    <audio id="vo4" data-start="12.5" data-duration="4.66" data-track-index="23" data-volume="1" src="assets/voice/scene4.wav"></audio>
+    <audio id="vo5" data-start="17.5" data-duration="4.51" data-track-index="24" data-volume="1" src="assets/voice/scene5.wav"></audio>
+    <audio id="vo6" data-start="21.5" data-duration="3.03" data-track-index="25" data-volume="1" src="assets/voice/outro.wav"></audio>
+
+    <!-- Music -->
+    <audio id="music" data-start="0" data-duration="25" data-track-index="10" data-volume="0.14" src="assets/music/happy-beats-business-moves-vol-1-by-ende-dot-app.mp3"></audio>
+
+    <!-- SFX -->
+    <audio id="sfx-alert" data-start="0" data-duration="0.12" data-track-index="30" data-volume="0.7" src="assets/sfx/interface/bong_001.ogg"></audio>
+    <audio id="sfx-card1" data-start="3.5" data-duration="0.69" data-track-index="31" data-volume="0.6" src="assets/sfx/casino/card-place-1.ogg"></audio>
+    <audio id="sfx-term1" data-start="8.2" data-duration="0.10" data-track-index="32" data-volume="0.5" src="assets/sfx/interface/click_001.ogg"></audio>
+    <audio id="sfx-term2" data-start="9.0" data-duration="0.10" data-track-index="33" data-volume="0.5" src="assets/sfx/interface/click_001.ogg"></audio>
+    <audio id="sfx-term3" data-start="9.8" data-duration="0.10" data-track-index="34" data-volume="0.5" src="assets/sfx/interface/click_001.ogg"></audio>
+    <audio id="sfx-term4" data-start="10.6" data-duration="0.10" data-track-index="35" data-volume="0.5" src="assets/sfx/interface/click_001.ogg"></audio>
+    <audio id="sfx-email" data-start="12.8" data-duration="0.69" data-track-index="36" data-volume="0.7" src="assets/sfx/casino/card-place-1.ogg"></audio>
+    <audio id="sfx-ref" data-start="14.7" data-duration="1.48" data-track-index="37" data-volume="0.8" src="assets/sfx/impact/impactBell_heavy_000.ogg"></audio>
+    <audio id="sfx-honest" data-start="18.0" data-duration="0.12" data-track-index="38" data-volume="0.8" src="assets/sfx/impact/impactSoft_medium_000.ogg"></audio>
+    <audio id="sfx-logo" data-start="22.8" data-duration="1.48" data-track-index="39" data-volume="0.9" src="assets/sfx/impact/impactBell_heavy_000.ogg"></audio>
+
+    <!-- Contextual SFX -->
+    <audio id="sfx-key1" data-start="4.6" data-duration="0.25" data-track-index="40" data-volume="0.35" src="assets/sfx/keyboard/keypress-001.wav"></audio>
+    <audio id="sfx-key2" data-start="4.9" data-duration="0.25" data-track-index="41" data-volume="0.32" src="assets/sfx/keyboard/keypress-002.wav"></audio>
+    <audio id="sfx-key3" data-start="5.2" data-duration="0.25" data-track-index="42" data-volume="0.35" src="assets/sfx/keyboard/keypress-003.wav"></audio>
+    <audio id="sfx-key4" data-start="5.5" data-duration="0.25" data-track-index="43" data-volume="0.3" src="assets/sfx/keyboard/keypress-001.wav"></audio>
+    <audio id="sfx-key5" data-start="5.8" data-duration="0.25" data-track-index="44" data-volume="0.33" src="assets/sfx/keyboard/keypress-002.wav"></audio>
+    <audio id="sfx-key6" data-start="6.1" data-duration="0.25" data-track-index="45" data-volume="0.35" src="assets/sfx/keyboard/keypress-003.wav"></audio>
+    <audio id="sfx-cta" data-start="6.55" data-duration="0.10" data-track-index="46" data-volume="0.5" src="assets/sfx/interface/click_001.ogg"></audio>
+    <audio id="sfx-attach" data-start="13.2" data-duration="0.10" data-track-index="47" data-volume="0.45" src="assets/sfx/interface/click_001.ogg"></audio>
+    <audio id="sfx-send" data-start="13.45" data-duration="0.55" data-track-index="48" data-volume="0.35" src="assets/sfx/interface/whoosh_soft.wav"></audio>
+    <audio id="sfx-thud" data-start="19.0" data-duration="0.21" data-track-index="49" data-volume="0.55" src="assets/sfx/impact/thud_low.wav"></audio>
+    <audio id="sfx-outro" data-start="21.7" data-duration="0.55" data-track-index="50" data-volume="0.3" src="assets/sfx/interface/whoosh_soft.wav"></audio>
+    <audio id="sfx-event" data-start="23.6" data-duration="0.10" data-track-index="51" data-volume="0.35" src="assets/sfx/interface/click_001.ogg"></audio>
+  </div>
+
+  <script>
+    const tl = gsap.timeline({ paused: true });
+
+    // Scene 1
+    tl.set(".sms-card", { opacity: 1, y: 0 }, 0);
+    tl.fromTo(".sms-card", { y: -40, opacity: 0.2 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" }, 0);
+    tl.from(".sms-footer", { opacity: 0, y: 10, duration: 0.4, ease: "power2.out" }, 1.2);
+
+    // Scene 2
+    tl.from(".chat-container", { scale: 0.94, opacity: 0, duration: 0.5, ease: "power3.out" }, 3.6);
+    tl.from(".chat-bubble", { opacity: 0, x: -20, duration: 0.4, ease: "power2.out" }, 4.0);
+    tl.from(".form-card", { opacity: 0, y: 20, duration: 0.5, ease: "power2.out" }, 4.4);
+    tl.from(".cta-btn", { opacity: 0, y: 10, duration: 0.3, ease: "power2.out" }, 6.5);
+
+    // Scene 3
+    tl.from(".term-pane", { opacity: 0, y: 20, duration: 0.4, ease: "power2.out", stagger: 0.25 }, 8.2);
+
+    // Scene 4
+    tl.from(".email-card", { opacity: 0, y: -30, duration: 0.5, ease: "power3.out" }, 12.6);
+    tl.from(".email-attach", { opacity: 0, x: -10, duration: 0.3, ease: "power2.out" }, 13.2);
+    tl.from(".ref-card", { opacity: 0, scale: 0.96, duration: 0.5, ease: "power3.out" }, 14.6);
+
+    // Scene 5
+    tl.from(".honest-card", { opacity: 0, scale: 0.92, duration: 0.5, ease: "power3.out" }, 17.6);
+    tl.to(".honest-card", { boxShadow: "0 24px 80px rgba(239,68,68,0.35)", duration: 1.2, ease: "sine.inOut" }, 19.0);
+
+    // Outro
+    tl.from(".logo", { opacity: 0, scale: 0.8, duration: 0.6, ease: "power3.out" }, 22.0);
+    tl.from(".logo-sub", { opacity: 0, y: 10, duration: 0.4, ease: "power2.out" }, 22.8);
+    tl.from(".logo-event", { opacity: 0, y: 10, duration: 0.4, ease: "power2.out" }, 23.6);
+
+    window.__timelines["adhikar"] = tl;
+  </script>
+</body>
+</html>
