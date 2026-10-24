@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 import httpx
 from pydantic import BaseModel

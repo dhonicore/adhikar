@@ -1,5 +1,6 @@
+import os
 from fastapi import FastAPI
-import os, json, smtplib, httpx, ssl
+import json, smtplib, httpx, ssl
 from email.message import EmailMessage
 from fpdf import FPDF
 from pydantic import BaseModel
