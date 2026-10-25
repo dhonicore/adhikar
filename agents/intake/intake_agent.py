@@ -16,7 +16,6 @@ load_dotenv(find_dotenv())
 
 AGENT_DESCRIPTION = "Helps students appeal wrongly rejected scholarship applications."
 
-# Standard Agent initialization - NO API KEY NEEDED
 intake = Agent(
     name="intake",
     seed=os.getenv("INTAKE_SEED_PHRASE"),
@@ -27,9 +26,10 @@ intake = Agent(
 
 chat_proto = Protocol(spec=chat_protocol_spec)
 
-ANALYST_URL = os.getenv("ANALYST_URL", "http://127.0.0.1:8002/analyse")
-DRAFTER_DRAFT_URL = os.getenv("DRAFTER_DRAFT_URL", "http://127.0.0.1:8003/draft")
-DRAFTER_CONFIRM_URL = os.getenv("DRAFTER_CONFIRM_URL", "http://127.0.0.1:8003/confirm")
+# Make sure these URLs match your Render URLs exactly!
+ANALYST_URL = os.getenv("ANALYST_URL", "https://adhikar-analyst.onrender.com/analyse")
+DRAFTER_DRAFT_URL = os.getenv("DRAFTER_DRAFT_URL", "https://adhikar-drafter.onrender.com/draft")
+DRAFTER_CONFIRM_URL = os.getenv("DRAFTER_CONFIRM_URL", "https://adhikar-drafter.onrender.com/confirm")
 
 @intake.on_event("startup")
 async def startup_handler(ctx: Context):
@@ -70,9 +70,23 @@ async def handle_chat(ctx: Context, sender: str, msg: ChatMessage):
         async with httpx.AsyncClient() as client:
             try:
                 r = await client.post(ANALYST_URL, json=case_data, timeout=60.0)
-                result = r.json()
+                
+                # BULLETPROOF ERROR CHECKING
+                if r.status_code != 200:
+                    error_msg = f"Analyst returned {r.status_code}. It might be asleep or crashed."
+                    ctx.logger.error(error_msg)
+                    await ctx.send(sender, ChatMessage(timestamp=datetime.now(tz=timezone.utc), msg_id=uuid4(), content=[TextContent(type="text", text=f"⚠️ {error_msg}")]))
+                    return
+                
+                try:
+                    result = r.json()
+                except Exception:
+                    ctx.logger.error(f"Analyst returned non-JSON: {r.text[:100]}")
+                    await ctx.send(sender, ChatMessage(timestamp=datetime.now(tz=timezone.utc), msg_id=uuid4(), content=[TextContent(type="text", text="⚠️ Analyst error: The server returned HTML instead of JSON. Check Render logs.")]))
+                    return
+                    
             except Exception as e:
-                await ctx.send(sender, ChatMessage(timestamp=datetime.now(tz=timezone.utc), msg_id=uuid4(), content=[TextContent(type="text", text=f"Analyst error: {e}")]))
+                await ctx.send(sender, ChatMessage(timestamp=datetime.now(tz=timezone.utc), msg_id=uuid4(), content=[TextContent(type="text", text=f"Analyst connection failed: {e}")]))
                 return
 
         outcome = result.get("outcome", "NO_GROUNDS")
@@ -104,6 +118,9 @@ async def handle_chat(ctx: Context, sender: str, msg: ChatMessage):
         async with httpx.AsyncClient() as client:
             try:
                 r = await client.post(DRAFTER_DRAFT_URL, json={"case_data": case_json}, timeout=60.0)
+                if r.status_code != 200:
+                    await ctx.send(sender, ChatMessage(timestamp=datetime.now(tz=timezone.utc), msg_id=uuid4(), content=[TextContent(type="text", text=f"⚠️ Drafter returned {r.status_code}.")]))
+                    return
                 res = r.json()
             except Exception as e:
                 await ctx.send(sender, ChatMessage(timestamp=datetime.now(tz=timezone.utc), msg_id=uuid4(), content=[TextContent(type="text", text=f"Drafter error: {e}")]))
@@ -136,6 +153,9 @@ async def handle_chat(ctx: Context, sender: str, msg: ChatMessage):
         async with httpx.AsyncClient() as client:
             try:
                 r = await client.post(DRAFTER_CONFIRM_URL, json={"case_id": case_id, "draft_text": draft_text}, timeout=60.0)
+                if r.status_code != 200:
+                    await ctx.send(sender, ChatMessage(timestamp=datetime.now(tz=timezone.utc), msg_id=uuid4(), content=[TextContent(type="text", text=f"⚠️ Drafter confirm returned {r.status_code}.")]))
+                    return
                 ref = r.json()
             except Exception as e:
                 await ctx.send(sender, ChatMessage(timestamp=datetime.now(tz=timezone.utc), msg_id=uuid4(), content=[TextContent(type="text", text=f"Failed: {e}")]))
