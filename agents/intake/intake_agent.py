@@ -13,7 +13,15 @@ from .cards import card_message, intake_form
 
 load_dotenv(find_dotenv())
 
-intake = Agent(name="intake", seed=os.getenv("INTAKE_SEED_PHRASE"), port=8001, mailbox=True, publish_agent_details=True)
+intake = Agent(
+    name="intake",
+    seed=os.getenv("INTAKE_SEED_PHRASE"),
+    port=8001,
+    mailbox=True,
+    network="testnet",  # Recommended to avoid Almanac funding issues
+    mailbox_api_token=os.getenv("AGENTVERSE_API_TOKEN"),  # <-- Add this line
+    publish_agent_details=True,
+)
 chat_proto = Protocol(spec=chat_protocol_spec)
 
 # Local FastAPI URLs
