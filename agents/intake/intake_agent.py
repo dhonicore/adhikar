@@ -2,6 +2,7 @@ import os
 import json
 import re
 import httpx
+import asyncio
 from datetime import datetime, timezone
 from uuid import uuid4
 from dotenv import find_dotenv, load_dotenv
@@ -9,25 +10,64 @@ from uagents import Agent, Context, Protocol
 from uagents_core.contrib.protocols.chat import (
     ChatAcknowledgement, ChatMessage, TextContent, MetadataContent, chat_protocol_spec
 )
+from uagents_core.utils.registration import (
+    register_chat_agent,
+    RegistrationRequestCredentials,
+)
 from .cards import card_message, intake_form
 
 load_dotenv(find_dotenv())
 
+AGENT_DESCRIPTION = "Helps students appeal wrongly rejected scholarship applications."
+
+# Initialize Agent WITHOUT the unsupported token argument
 intake = Agent(
     name="intake",
     seed=os.getenv("INTAKE_SEED_PHRASE"),
     port=8001,
     mailbox=True,
-    agentverse_api_token=os.getenv("AGENTVERSE_API_TOKEN"),  # <-- Correct parameter
     publish_agent_details=True,
 )
 
 chat_proto = Protocol(spec=chat_protocol_spec)
 
-# Local FastAPI URLs
+# Local FastAPI URLs (with 60s timeout for Render cold starts)
 ANALYST_URL = os.getenv("ANALYST_URL", "http://127.0.0.1:8002/analyse")
 DRAFTER_DRAFT_URL = os.getenv("DRAFTER_DRAFT_URL", "http://127.0.0.1:8003/draft")
 DRAFTER_CONFIRM_URL = os.getenv("DRAFTER_CONFIRM_URL", "http://127.0.0.1:8003/confirm")
+
+
+@intake.on_event("startup")
+async def startup_handler(ctx: Context):
+    ctx.logger.info(f"Agent starting: {ctx.agent.name} at {ctx.agent.address}")
+    
+    # Handle Event Loop for Python 3.12+ / Render compatibility
+    try:
+        asyncio.get_event_loop()
+    except RuntimeError:
+        asyncio.set_event_loop(asyncio.new_event_loop())
+
+    # Register with Agentverse using API Token
+    AGENTVERSE_KEY = os.getenv("AGENTVERSE_API_TOKEN")
+    if AGENTVERSE_KEY:
+        try:
+            register_chat_agent(
+                "intake",
+                intake._endpoints[0].url,
+                active=True,
+                credentials=RegistrationRequestCredentials(
+                    agentverse_api_key=AGENTVERSE_KEY,
+                    agent_seed_phrase=os.getenv("INTAKE_SEED_PHRASE"),
+                ),
+                readme="Helps students appeal wrongly rejected scholarship applications.",
+                description=AGENT_DESCRIPTION
+            )
+            ctx.logger.info("✅ Registered with Agentverse successfully.")
+        except Exception as e:
+            ctx.logger.error(f"Failed to register with Agentverse: {e}")
+    else:
+        ctx.logger.warning("⚠️ AGENTVERSE_API_TOKEN not set. Skipping custom registration.")
+
 
 @chat_proto.on_message(ChatMessage)
 async def handle_chat(ctx: Context, sender: str, msg: ChatMessage):
@@ -59,11 +99,11 @@ async def handle_chat(ctx: Context, sender: str, msg: ChatMessage):
         
         await ctx.send(sender, ChatMessage(timestamp=datetime.now(tz=timezone.utc), msg_id=uuid4(), content=[TextContent(type="text", text="Checking rules...")]))
         
-        # Call local Analyst
+        # Call local/cloud Analyst
         ctx.logger.info(f"Sending to Analyst at {ANALYST_URL}...")
         async with httpx.AsyncClient() as client:
             try:
-                r = await client.post(ANALYST_URL, json=case_data, timeout=60)
+                r = await client.post(ANALYST_URL, json=case_data, timeout=60.0) # 60s Timeout
                 result = r.json()
                 ctx.logger.info(f"Analyst response: {result}")
             except Exception as e:
@@ -100,7 +140,7 @@ async def handle_chat(ctx: Context, sender: str, msg: ChatMessage):
         
         async with httpx.AsyncClient() as client:
             try:
-                r = await client.post(DRAFTER_DRAFT_URL, json={"case_data": case_json}, timeout=10)
+                r = await client.post(DRAFTER_DRAFT_URL, json={"case_data": case_json}, timeout=60.0) # 60s Timeout
                 res = r.json()
                 ctx.logger.info(f"Drafter response: {res}")
             except Exception as e:
@@ -125,7 +165,6 @@ async def handle_chat(ctx: Context, sender: str, msg: ChatMessage):
         }
         meta = {"card_protocol_version": "1", "requires_card_interaction": "true", "card_kind": "detail", "card_payload": json.dumps(payload)}
         
-        # Send BOTH TextContent and MetadataContent to force ASI:One to render it
         await ctx.send(sender, ChatMessage(
             timestamp=datetime.now(tz=timezone.utc), 
             msg_id=uuid4(), 
@@ -145,7 +184,7 @@ async def handle_chat(ctx: Context, sender: str, msg: ChatMessage):
         
         async with httpx.AsyncClient() as client:
             try:
-                r = await client.post(DRAFTER_CONFIRM_URL, json={"case_id": case_id, "draft_text": draft_text}, timeout=15)
+                r = await client.post(DRAFTER_CONFIRM_URL, json={"case_id": case_id, "draft_text": draft_text}, timeout=60.0) # 60s Timeout
                 ref = r.json()
                 ctx.logger.info(f"Confirm response: {ref}")
             except Exception as e:
@@ -165,12 +204,10 @@ async def handle_chat(ctx: Context, sender: str, msg: ChatMessage):
                 {"label": "SLA Deadline", "value": f"{ref.get('sla_days')} days"},
                 {"label": "Assigned To", "value": ref.get("assigned_office")}
             ],
-            # Adding a CTA button forces ASI:One to render the card
             "ctas": [{"label": "Done", "primary": True, "selection": {"action": "done"}}]
         }
         meta = {"card_protocol_version": "1", "requires_card_interaction": "true", "card_kind": "detail", "card_payload": json.dumps(ref_payload)}
         
-        # Send ONLY the final card
         await ctx.send(sender, ChatMessage(
             timestamp=datetime.now(tz=timezone.utc), 
             msg_id=uuid4(), 
@@ -185,7 +222,10 @@ async def handle_chat(ctx: Context, sender: str, msg: ChatMessage):
     await ctx.send(sender, card_message("I can help you appeal this. First, a few details:", "form", intake_form()))
 
 @chat_proto.on_message(ChatAcknowledgement)
-async def handle_ack(ctx: Context, sender: str, msg: ChatAcknowledgement): pass
+async def handle_ack(ctx: Context, sender: str, msg: ChatAcknowledgement): 
+    pass
 
 intake.include(chat_proto, publish_manifest=True)
-if __name__ == "__main__": intake.run()
+
+if __name__ == "__main__": 
+    intake.run()
