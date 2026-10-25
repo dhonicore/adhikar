@@ -18,10 +18,10 @@ intake = Agent(
     seed=os.getenv("INTAKE_SEED_PHRASE"),
     port=8001,
     mailbox=True,
-    network="testnet",  # Recommended to avoid Almanac funding issues
-    mailbox_api_token=os.getenv("AGENTVERSE_API_TOKEN"),  # <-- Add this line
+    agentverse_api_token=os.getenv("AGENTVERSE_API_TOKEN"),  # <-- Correct parameter
     publish_agent_details=True,
 )
+
 chat_proto = Protocol(spec=chat_protocol_spec)
 
 # Local FastAPI URLs
